@@ -38,4 +38,8 @@ public class CustomEventWizard extends Wizard
         return true;
     }
 
+    public CustomEventModel getModel()
+    {
+        return model;
+    }
 }

@@ -14,6 +14,8 @@ public class CustomEventModel extends BindingHelper.Model
     private SecurityEvent.Type type = SecurityEvent.Type.NOTE;
     private String message = ""; //$NON-NLS-1$
 
+    private SecurityEvent source;
+
     public CustomEventModel(Client client, Security security)
     {
         super(client);
@@ -51,10 +53,29 @@ public class CustomEventModel extends BindingHelper.Model
         firePropertyChange("message", this.message, this.message = message); //$NON-NLS-1$
     }
 
+    public void setSource(Object entry)
+    {
+        this.source = (SecurityEvent) entry;
+
+        this.date = source.getDate();
+        this.message = source.getDetails();
+        this.type = source.getType();
+    }
+
     @Override
     public void applyChanges()
     {
-        SecurityEvent event = new SecurityEvent(date, type, message);
-        security.addEvent(event);
+        if (source == null)
+        {
+            SecurityEvent event = new SecurityEvent(date, type, message);
+            security.addEvent(event);
+        }
+        else
+        {
+            // update source object
+            source.setDate(date);
+            source.setDetails(message);
+            source.setType(type);
+        }
     }
 }

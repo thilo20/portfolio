@@ -623,6 +623,10 @@ public class SecuritiesChart
     {
         chart.setRedraw(false);
 
+        // make chart (and context menu) aware of current selection
+        chart.setData("security", security);
+        chart.setData("client", client);
+
         try
         {
             // delete all line series (quotes + possibly moving average)
